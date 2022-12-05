@@ -1,0 +1,34 @@
+body {
+    background-image:linear-gradient(110deg,rgb(149, 239, 204),rgb(212, 245, 80));
+ 
+  }
+  
+  .form {
+    margin-left: 300px;
+      margin-bottom: 20px;
+  }
+  
+  #title {
+    padding-left: 140px;
+    font-size: large;
+  }
+  
+  #inputText {
+    width: 320px;
+  }
+  #submitTodo{
+    cursor: pointer;
+  }
+  .todo-title{
+    width: 320px;
+  }
+  .hideDiv{
+   margin-right: 290px;
+  }
+  .text-area{
+   width:323px;
+   height:88px;
+  }
+  .checkbox{
+   opacity: 0.5rem;
+  }
