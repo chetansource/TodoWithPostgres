@@ -1,7 +1,6 @@
 import pg from 'pg'
 const Client = pg.Client
 
-// console.log('hi')
 const client = new Client({
   user: 'chetan',
   host: 'localhost',
@@ -23,4 +22,15 @@ export function connectDataBase () {
 export async function getTodos () {
   const todos = await client.query('SELECT * from todo  ORDER BY id;')
   return todos.rows
+}
+
+export async function insertTodos (todo) {
+  const addTodo = `INSERT INTO todo (name) VALUES ('${todo}');`
+  return await client.query(addTodo)
+}
+export async function updateTodos () {
+  `UPDATE todo 
+  SET column =value
+  WHERE condition(id)`
+  return await client.query()
 }

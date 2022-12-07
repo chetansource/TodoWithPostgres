@@ -23,12 +23,24 @@ body {
     width: 320px;
   }
   .hideDiv{
+    display: block;
    margin-right: 290px;
   }
   .text-area{
-   width:323px;
-   height:88px;
+   width:340px;
+   height:95px;
   }
   .checkbox{
    opacity: 0.5rem;
+  }
+  .priorityLabel{
+ width: 10px;
+ height:18px;
+  }
+  .prior{
+    width:60px;
+    height:20px;
+  }
+  .add-date{
+    height: 18px;
   }
