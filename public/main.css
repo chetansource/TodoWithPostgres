@@ -100,3 +100,26 @@ body {
   width:545px;
   border-radius: 3px;
 }
+#footer{
+  /* background-color: blueviolet; */
+  position:absolute;
+  bottom: 0;
+  margin-bottom: 50px;
+  width: 600px;
+  height: 100px;
+  padding-right: 600px;
+
+}
+#btn1{
+  height:40px;
+  width: 100px;
+}
+#btn2{
+  height:40px;
+  width: 150px;
+}
+#btn3{
+    height:40px;
+    width: 100px;
+}
+
