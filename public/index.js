@@ -1,4 +1,5 @@
-import { fetchTodos, insertTodos } from './fetch.js'
+
+import { fetchTodos, insertTodos, updateTodos, deleteTodos } from './fetch.js'
 let todoArray = await fetchTodos()
 showTodo()
 
@@ -9,11 +10,11 @@ button.addEventListener('click', async (event) => {
   console.log('hi')
   if (input.value.length !== 0) {
     const response = await insertTodos(input)
-    if (response.status === 200) {
+    if (response.statusText === 'OK') {
       todoArray = await fetchTodos()
       showTodo()
     } else {
-      console.log('unable to send')
+      console.log('unable to send data')
     }
     input.value = '' // setting the input value to empty after submit
   }
@@ -23,7 +24,6 @@ function showTodo () {
   const todoContainer = document.querySelector('.todoContainer')
   todoContainer.textContent = ''
   todoArray.forEach((todo) => {
-    // console.log(todo)
     todoContainer.appendChild(createDivElement(todo))
   })
 }
@@ -33,13 +33,17 @@ function createDivElement (todo) {
   elementDiv.id = todo.id
   elementDiv.className = 'firstDiv'
 
+  const childDiv = document.createElement('div')
+  childDiv.className = 'childDiv'
+
   const textInput = addTextInput(todo)
   const checkBox = addCheckBox(todo)
   const properties = addProperties(todo)
 
-  elementDiv.appendChild(textInput)
-  elementDiv.appendChild(checkBox)
+  elementDiv.appendChild(childDiv)
   elementDiv.appendChild(properties)
+  childDiv.appendChild(textInput)
+  childDiv.appendChild(checkBox)
 
   elementDiv.addEventListener('click', (event) => {
     const element = event.target.tagName
@@ -59,13 +63,14 @@ function addTextInput (todo) {
   const newTodo = document.createElement('input')
   newTodo.type = 'text'
   newTodo.value = todo.name
-  //   console.log(todo.name)
   newTodo.id = 'input' + String(todo.id)
   newTodo.className = 'todo-title'
-  // newTodo.style.backgroundColor = 'blue'
   newTodo.addEventListener('change', () => {
+    const property = 'name'
+    const value = newTodo.value
+    const result = updateTodos(property, value, todo)
+
     todo.name = newTodo.value
-    // updateLocalStorage()
   })
   return newTodo
 }
@@ -79,6 +84,10 @@ function addCheckBox (todo) {
   }
   // console.log(checkBox.checked)
   checkBox.addEventListener('change', () => {
+    const property = 'checkbox'
+    const value = checkBox.checked
+    const result = updateTodos(property, value, todo)
+
     todo.checkBox = checkBox.checked
     const element = document.getElementById('input' + String(todo.id))
     if (todo.checkBox === true) {
@@ -121,8 +130,12 @@ function addTextArea (todo) {
     textArea.value = todo.notes
   }
   textArea.addEventListener('change', () => {
+    const property = 'notes'
+    const value = textArea.value
+    const result = updateTodos(property, value, todo)
+    console.log(result)
+
     todo.notes = textArea.value
-    // updateLocalStorage()
   })
 
   return textArea
@@ -148,8 +161,11 @@ function createDate (todo) {
     todo.date = dateInput.value
   }
   dateInput.addEventListener('change', () => {
+    const property = 'date'
+    const value = dateInput.value
+    const result = updateTodos(property, value, todo)
+
     todo.date = dateInput.value
-    // updateLocalStorage()
   })
   return dateInput
 }
@@ -177,6 +193,10 @@ function addPriority (todo) {
     // console.log(todo.priority)
   }
   Priority.addEventListener('change', () => {
+    const property = 'priority'
+    const value = Priority.value
+    const result = updateTodos(property, value, todo)
+
     todo.priority = Priority.value
     // updateLocalStorage()
   })
@@ -189,9 +209,9 @@ function createDeleteBtn (todo) {
   deleteBtn.className = 'Delete'
   const delID = todo.id
   deleteBtn.addEventListener('click', () => {
+    deleteTodos(todo)
     document.getElementById(delID).remove()
     todoArray = todoArray.filter(i => i.id !== delID)
-    // updateLocalStorage()
   })
   return deleteBtn
 }

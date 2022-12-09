@@ -28,9 +28,14 @@ export async function insertTodos (todo) {
   const addTodo = `INSERT INTO todo (name) VALUES ('${todo}');`
   return await client.query(addTodo)
 }
-export async function updateTodos () {
-  `UPDATE todo 
-  SET column =value
-  WHERE condition(id)`
-  return await client.query()
+export async function updateTodos (id, property, value) {
+  const updateTodo = `UPDATE todo 
+  SET ${property} ='${value}'
+  WHERE id=${id};`
+  return await client.query(updateTodo)
+}
+export async function deleteTodos (id) {
+  const deleteTodo = `DELETE FROM todo
+  WHERE id=${id};`
+  return await client.query(deleteTodo)
 }

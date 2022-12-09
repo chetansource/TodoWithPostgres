@@ -4,43 +4,99 @@ body {
   }
   
   .form {
-    margin-left: 300px;
-      margin-bottom: 20px;
+    display: block;
+    margin-left: 200px;
+    margin-bottom: 20px;
+    margin-right: 200px;
+  }
+  .formtodo{
+    margin-left: 350px;
+    margin-right: 350px;
+    padding-left: 50px;
+     padding-right: 50px; 
+  }
+  .firstDiv{
+    /* border:10px black; */
+    margin-left: 100px;
+    padding-left: 300px;
+    width: 550px ;
   }
   
   #title {
     padding-left: 140px;
-    font-size: large;
+    font-size: 25px;
   }
   
   #inputText {
-    width: 320px;
+    height:35px ;
+    width: 500px;
+    font-size: 23px;
   }
   #submitTodo{
+    height:40px;
+    width: 32px;
+  
+    padding-top: 7px;
     cursor: pointer;
   }
+  #submitTodo:hover{
+    background-color: goldenrod;
+    transition: 0.7s;
+  }
   .todo-title{
-    width: 320px;
+    font-size: 20px;
+    width: 500px;
+    height:29px;
   }
   .hideDiv{
     display: block;
-   margin-right: 290px;
+    border-style:none solid solid solid;
+    border-width:2px ;
+   margin-right: 37px;
+   padding-right: 1px;
   }
   .text-area{
-   width:340px;
+    font-size: 15px;
+   width:500px;
    height:95px;
+   resize: none;
   }
   .checkbox{
    opacity: 0.5rem;
   }
   .priorityLabel{
+    margin-left: 40px;
  width: 10px;
  height:18px;
   }
   .prior{
-    width:60px;
-    height:20px;
+    width:80px;
+    height:25px;
   }
   .add-date{
     height: 18px;
   }
+  .addCheck{
+    width:30px;
+    height:21px;
+  }
+.Delete{
+  margin-left: 70px;
+  width:30px;
+  height:30px;
+}
+.Delete:hover{
+  background-color: red;
+  transition: 0.7s;
+
+}
+.dateLabel{
+  padding-left: 10px;
+}
+.childDiv{
+  border-style: solid;
+  border-width: 1px;
+  margin-right: 100px;
+  width:545px;
+  border-radius: 3px;
+}

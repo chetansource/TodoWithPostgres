@@ -1,5 +1,5 @@
 import express from 'express'
-import { connectDataBase, getTodos, insertTodos, updateTodos } from './database.js'
+import { connectDataBase, getTodos, insertTodos, updateTodos, deleteTodos } from './database.js'
 import bodyParser from 'body-parser'
 
 const app = express()
@@ -12,7 +12,6 @@ app.get('/todos', async (req, res) => {
   try {
     const result = await getTodos()
     res.json(result)
-    // console.log(result)
   } catch (error) {
     console.log(error.message)
   }
@@ -27,9 +26,23 @@ app.post('/addTodos', async (req, res) => {
   }
 })
 
-app.post('/updateTodos', async (req, res) => {
+app.put('/updateTodos/:id/:property', async (req, res) => {
   try {
-
+    const id = req.params.id.slice(1)
+    const property = req.params.property.slice(1)
+    const value = req.body.updateValue
+    const modifyTodo = await updateTodos(id, property, value)
+    res.json(modifyTodo)
+  } catch (error) {
+    console.log(error.message)
+  }
+})
+app.delete('/deleteTodos/:id', async (req, res) => {
+  try {
+    const id = req.params.id.slice(1)
+    console.log(id)
+    const deleteEntry = await deleteTodos(id)
+    res.json(deleteEntry)
   } catch (error) {
     console.log(error.message)
   }
