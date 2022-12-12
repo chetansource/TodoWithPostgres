@@ -24,18 +24,38 @@ export async function getTodos () {
   return todos.rows
 }
 
-export async function insertTodos (todo) {
-  const addTodo = `INSERT INTO todo (name) VALUES ('${todo}');`
+export async function insertTodo (todo) {
+  const addTodo = `INSERT INTO todo (name) VALUES ('${todo}');`// change
   return await client.query(addTodo)
 }
-export async function updateTodos (id, property, value) {
+export async function updateTodo (id, property, value) {
   const updateTodo = `UPDATE todo 
   SET ${property} ='${value}'
   WHERE id=${id};`
   return await client.query(updateTodo)
 }
-export async function deleteTodos (id) {
+export async function deleteTodo (id) {
   const deleteTodo = `DELETE FROM todo
   WHERE id=${id};`
   return await client.query(deleteTodo)
+}
+
+export async function deleteDone () {
+  const delDone = `DELETE FROM todo
+  WHERE checkbox = 'true';`
+  return await client.query(delDone)
+}
+export async function deleteAll () {
+  const delAll = 'DELETE FROM todo;'
+  return await client.query(delAll)
+}
+export async function showCompleted () {
+  const completed = `SELECT * FROM todo
+  WHERE checkbox = 'true' ORDER BY id;`
+  return await client.query(completed)
+}
+export async function pendingTodos () {
+  const pending = `SELECT * FROM todo
+  WHERE checkbox = 'false' ORDER BY id;`
+  return await client.query(pending)
 }

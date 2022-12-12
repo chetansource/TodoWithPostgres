@@ -1,5 +1,5 @@
 
-import { fetchTodos, insertTodos, updateTodos, deleteTodos } from './fetch.js'
+import { fetchTodos, insertTodo, updateTodo, deleteTodo, deleteDone, deleteAll, showCompleted, pending } from './fetch.js'
 let todoArray = await fetchTodos()
 showTodo()
 
@@ -7,9 +7,8 @@ const button = document.getElementById('submitTodo')
 button.addEventListener('click', async (event) => {
   event.preventDefault()
   const input = document.getElementById('inputText')
-  console.log('hi')
   if (input.value.length !== 0) {
-    const response = await insertTodos(input)
+    const response = await insertTodo(input)
     if (response.statusText === 'OK') {
       todoArray = await fetchTodos()
       showTodo()
@@ -68,7 +67,7 @@ function addTextInput (todo) {
   newTodo.addEventListener('change', () => {
     const property = 'name'
     const value = newTodo.value
-    const result = updateTodos(property, value, todo)
+    const result = updateTodo(property, value, todo)
 
     todo.name = newTodo.value
   })
@@ -79,23 +78,21 @@ function addCheckBox (todo) {
   const checkBox = document.createElement('input')
   checkBox.type = 'checkbox'
   checkBox.className = 'addCheck'
-  if (todo.checkBox) {
-    checkBox.checked = todo.checkBox
+  if (todo.checkbox === true) {
+    checkBox.checked = todo.checkbox
   }
-  // console.log(checkBox.checked)
   checkBox.addEventListener('change', () => {
     const property = 'checkbox'
-    const value = checkBox.checked
-    const result = updateTodos(property, value, todo)
+    const value = String(checkBox.checked)
+    const result = updateTodo(property, value, todo)
 
-    todo.checkBox = checkBox.checked
+    todo.checkbox = checkBox.checked
     const element = document.getElementById('input' + String(todo.id))
-    if (todo.checkBox === true) {
+    if (todo.checkbox === true) {
       element.style.textDecoration = 'line-through'
     } else {
       element.style.textDecoration = 'none'
     }
-    // updateLocalStorage()
   })
   return checkBox
 }
@@ -132,7 +129,7 @@ function addTextArea (todo) {
   textArea.addEventListener('change', () => {
     const property = 'notes'
     const value = textArea.value
-    const result = updateTodos(property, value, todo)
+    const result = updateTodo(property, value, todo)
     console.log(result)
 
     todo.notes = textArea.value
@@ -163,7 +160,7 @@ function createDate (todo) {
   dateInput.addEventListener('change', () => {
     const property = 'date'
     const value = dateInput.value
-    const result = updateTodos(property, value, todo)
+    const result = updateTodo(property, value, todo)
 
     todo.date = dateInput.value
   })
@@ -190,15 +187,13 @@ function addPriority (todo) {
   }
   if (todo.priority !== undefined) {
     Priority.value = todo.priority
-    // console.log(todo.priority)
   }
   Priority.addEventListener('change', () => {
     const property = 'priority'
     const value = Priority.value
-    const result = updateTodos(property, value, todo)
+    const result = updateTodo(property, value, todo)
 
     todo.priority = Priority.value
-    // updateLocalStorage()
   })
   return Priority
 }
@@ -209,9 +204,41 @@ function createDeleteBtn (todo) {
   deleteBtn.className = 'Delete'
   const delID = todo.id
   deleteBtn.addEventListener('click', () => {
-    deleteTodos(todo)
+    deleteTodo(todo)
     document.getElementById(delID).remove()
     todoArray = todoArray.filter(i => i.id !== delID)
   })
   return deleteBtn
 }
+
+const delDone = document.getElementById('btn2')
+delDone.addEventListener('click', async () => {
+  const res = await deleteDone()
+  if (res === 200) {
+    todoArray = await fetchTodos()
+    console.log(todoArray)
+    showTodo()
+  }
+})
+
+const delAll = document.getElementById('btn3')
+delAll.addEventListener('click', async () => {
+  const res = await deleteAll()
+  if (res === 200) {
+    todoArray = await fetchTodos()
+    showTodo()
+  }
+})
+const completedTodo = document.getElementById('btn1')
+completedTodo.addEventListener('click', async () => {
+  const res = await showCompleted()
+  todoArray = res.rows
+  showTodo()
+})
+
+const pendingTodo = document.getElementById('btn4')
+pendingTodo.addEventListener('click', async () => {
+  const res = await pending()
+  todoArray = res.rows
+  showTodo()
+})

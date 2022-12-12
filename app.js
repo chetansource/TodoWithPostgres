@@ -1,51 +1,85 @@
 import express from 'express'
-import { connectDataBase, getTodos, insertTodos, updateTodos, deleteTodos } from './database.js'
+import { connectDataBase, getTodos, insertTodo, updateTodo, deleteTodo, deleteDone, deleteAll, showCompleted, pendingTodos } from './database.js'
 import bodyParser from 'body-parser'
 
 const app = express()
 app.use(bodyParser.json()) // json middleware converting request to json
-app.use(express.static('public'))
+app.use(express.static('public')) // express middleware
 
 connectDataBase()
 
-app.get('/todos', async (req, res) => {
+app.get('/todo', async (req, res) => {
   try {
     const result = await getTodos()
     res.json(result)
   } catch (error) {
     console.log(error.message)
+    res.send('Error 500 server not responding')
   }
 })
 
-app.post('/addTodos', async (req, res) => {
+app.post('/addTodo', async (req, res) => {
   try {
-    const addTodo = await insertTodos(req.body.todo)
+    const addTodo = await insertTodo(req.body.todo)
     res.json(addTodo)
   } catch (error) {
     console.log(error.message)
   }
 })
 
-app.put('/updateTodos/:id/:property', async (req, res) => {
+app.put('/updateTodo/:id/:property', async (req, res) => {
   try {
-    const id = req.params.id.slice(1)
-    const property = req.params.property.slice(1)
+    const id = req.params.id
+    const property = req.params.property
     const value = req.body.updateValue
-    const modifyTodo = await updateTodos(id, property, value)
+    const modifyTodo = await updateTodo(id, property, value)
     res.json(modifyTodo)
   } catch (error) {
     console.log(error.message)
   }
 })
-app.delete('/deleteTodos/:id', async (req, res) => {
+app.delete('/deleteTodo/:id', async (req, res) => {
   try {
-    const id = req.params.id.slice(1)
-    console.log(id)
-    const deleteEntry = await deleteTodos(id)
+    const id = req.params.id
+    const deleteEntry = await deleteTodo(id)
     res.json(deleteEntry)
   } catch (error) {
-    console.log(error.message)
+    res.send(error.message)
+  }
+})
+app.delete('/deleteDone', async (req, res) => {
+  try {
+    const delDone = await deleteDone()
+  } catch (error) {
+    res.send(error.message)
+  }
+})
+
+app.delete('/deleteAll', async (req, res) => {
+  try {
+    const delAll = await deleteAll()
+  } catch (error) {
+    res.send(error.message)
+  }
+})
+
+app.get('/showCompleted', async (req, res) => {
+  try {
+    const Completed = await showCompleted()
+    res.json(Completed)
+  } catch (error) {
+    res.send(error.message)
+  }
+})
+
+app.get('/Pending', async (req, res) => {
+  try {
+    const Pending = await pendingTodos()
+    res.json(Pending)
+  } catch (error) {
+    res.send(error.message)
   }
 })
 
 app.listen(3000, () => console.log(' its live on http://localhost:3000'))
+// refer a restful doc

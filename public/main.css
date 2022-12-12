@@ -110,16 +110,32 @@ body {
   padding-right: 600px;
 
 }
+#footer{
+  text-align: center;
+  padding-top: 40px;
+  margin-left: 380px;
+  padding-right: 100px;
+  width:1000px;
+}
 #btn1{
-  height:40px;
-  width: 100px;
+  height:60px;
+  width: 200px;
+  font-size: 20px;
 }
 #btn2{
-  height:40px;
-  width: 150px;
+  height:60px;
+  width: 200px;
+  font-size: 20px;
 }
 #btn3{
-    height:40px;
-    width: 100px;
+  height:60px;
+  width: 200px;
+  font-size: 20px;
 }
+#btn4{
+  height:60px;
+  width: 200px;
+  font-size: 20px;
+}
+
 
